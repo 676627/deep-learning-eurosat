@@ -211,3 +211,4 @@ __marimo__/
 data/
 checkpoints/
 .wandb/
+EuroSAT_MS_cache.npz
