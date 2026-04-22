@@ -44,7 +44,7 @@ def load_rgb_dataset(data_dir, image_size=(64, 64), batch_size=64, seed=42):
     return train_ds, val_ds
 
 
-def load_ms_dataset(data_dir, band_indices=None, batch_size=64, seed=42):
+def load_ms_dataset(data_dir, band_indices=None, batch_size=64, seed=42, max_per_class=None):
     """
     Loads the EuroSAT multispectral dataset (.tif files, 13 bands).
 
@@ -57,6 +57,8 @@ def load_ms_dataset(data_dir, band_indices=None, batch_size=64, seed=42):
     band_indices: list of band indices to use (0-12). Default: all 13.
                   Example: [3, 2, 1] loads only the RGB-equivalent bands.
 
+    max_per_class: if not None, limits the number of images loaded from each class.
+
     Returns train_ds, val_ds, and stats (mean/std used for normalisation).
     """
     if band_indices is None:
@@ -67,10 +69,13 @@ def load_ms_dataset(data_dir, band_indices=None, batch_size=64, seed=42):
     all_paths, all_labels = [], []
     for label_idx, class_name in enumerate(CLASSES):
         class_dir = os.path.join(data_dir, class_name)
-        for fname in sorted(os.listdir(class_dir)):
-            if fname.endswith(".tif"):
-                all_paths.append(os.path.join(class_dir, fname))
-                all_labels.append(label_idx)
+        files = sorted(f for f in os.listdir(class_dir) if f.endswith(".tif"))
+        if max_per_class is not None:
+            rng_class = np.random.default_rng(seed)
+            files = rng_class.choice(files, size=max_per_class, replace=False).tolist() 
+        for fname in files:
+            all_paths.append(os.path.join(class_dir, fname))
+            all_labels.append(label_idx)
 
     all_paths  = np.array(all_paths)
     all_labels = np.array(all_labels, dtype=np.int32)

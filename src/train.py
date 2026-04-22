@@ -17,6 +17,7 @@ BAND_INDICES  = None            # None = all 13 bands. Example: [3, 2, 1] for RG
 EPOCHS        = 50
 BATCH_SIZE    = 64
 LEARNING_RATE = 1e-3
+MAX_PER_CLASS = 200            # if not None, limits the number of images loaded from each class
 
 # Load data
 if MODE == "rgb":
@@ -26,10 +27,10 @@ if MODE == "rgb":
 else:
     band_indices = BAND_INDICES if BAND_INDICES is not None else list(range(13))
     train_ds, val_ds, stats = load_ms_dataset(
-        MS_DATA_DIR, band_indices=band_indices, batch_size=BATCH_SIZE
+        MS_DATA_DIR, band_indices=band_indices, batch_size=BATCH_SIZE, max_per_class=MAX_PER_CLASS
     )
     n_channels = len(band_indices)
-    run_name = f"MS_{n_channels}bands"
+    run_name = f"MS_{n_channels}bands_{MAX_PER_CLASS}perclass" if MAX_PER_CLASS is not None else f"MS_{n_channels}bands"
 
 # Build model
 model = build_model(in_channels=n_channels)
@@ -72,7 +73,7 @@ history = model.fit(
             monitor="val_loss", factor=0.5, patience=5
         ),
         keras.callbacks.EarlyStopping(
-            monitor="val_loss", patience=15, restore_best_weights=True
+            monitor="val_loss", patience=5, restore_best_weights=True
         ),
     ],
 )

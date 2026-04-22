@@ -29,5 +29,18 @@ def build_model(in_channels, num_classes=10):
     x = keras.layers.Dropout(0.5)(x)
     outputs = keras.layers.Dense(num_classes, activation="softmax")(x)
 
-    model = keras.Model(inputs, outputs)
+    # model = keras.Model(inputs, outputs)
+    model = keras.Sequential(
+    [
+        keras.Input(shape=(64, 64, in_channels)),
+        keras.layers.Rescaling(1.0/255),    # Standardise the images on-the-fly
+        keras.layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
+        keras.layers.MaxPooling2D(pool_size=(2, 2)),
+        keras.layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
+        keras.layers.MaxPooling2D(pool_size=(2, 2)),
+        keras.layers.Flatten(),
+        keras.layers.Dropout(0.4),
+        keras.layers.Dense(10, activation="sigmoid"),
+    ]
+)
     return model
