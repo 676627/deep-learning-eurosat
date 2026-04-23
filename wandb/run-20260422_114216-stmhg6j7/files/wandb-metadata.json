@@ -1,0 +1,28 @@
+{
+  "os": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.35",
+  "python": "CPython 3.11.15",
+  "startedAt": "2026-04-22T11:42:16.988663Z",
+  "program": "/workspaces/deep-learning-eurosat/src/train.py",
+  "codePath": "src/train.py",
+  "codePathLocal": "src/train.py",
+  "git": {
+    "remote": "https://github.com/676627/deep-learning-eurosat.git",
+    "commit": "92da17d552b20d98107154d95d771ca0167c5381"
+  },
+  "email": "676627@stud.hvl.no",
+  "root": "/workspaces/deep-learning-eurosat",
+  "host": "2818fc8a6e3e",
+  "executable": "/usr/bin/python",
+  "cpu_count": 8,
+  "cpu_count_logical": 16,
+  "disk": {
+    "/": {
+      "total": "1081101176832",
+      "used": "11598548992"
+    }
+  },
+  "memory": {
+    "total": "7126323200"
+  },
+  "writerId": "aewwcejsxcmgbhmddfo3i1er4mqq1hcl"
+}

@@ -10,7 +10,7 @@ from src.dataset import load_rgb_dataset, load_ms_dataset
 from src.model import build_model
 
 # Configuration — change these variables to switch experiments
-MODE = "ms"                    # "rgb" or "ms"
+MODE = "rgb"                    # "rgb" or "ms"
 RGB_DATA_DIR  = "data/EuroSAT_RGB"
 MS_DATA_DIR   = "data/EuroSAT_MS"
 BAND_INDICES  = None            # None = all 13 bands. Example: [3, 2, 1] for RGB-equivalent
