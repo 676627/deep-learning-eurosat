@@ -9,21 +9,32 @@ from wandb.integration.keras import WandbMetricsLogger
 from src.dataset import load_rgb_dataset, load_ms_dataset
 from src.model import build_model
 
-# Configuration — change these variables to switch experiments
-MODE = "rgb"                    # "rgb" or "ms"
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--mode",          type=str, default="rgb", choices=["rgb", "ms"])
+parser.add_argument("--band_indices", type=int, default=None)
+parser.add_argument("--epochs",        type=int, default=50)
+parser.add_argument("--batch_size",    type=int, default=64)
+parser.add_argument("--lr",            type=float, default=1e-3)
+parser.add_argument("--max_per_class", type=int, default=None)
+args = parser.parse_args()
+
+MODE          = args.mode
+BAND_INDICES  = args.band_indices  # None = all 13 bands. Example: [3, 2, 1] for RGB-equivalent
+EPOCHS        = args.epochs
+BATCH_SIZE    = args.batch_size
+LEARNING_RATE = args.lr
+MAX_PER_CLASS = args.max_per_class # None = use all data
+
 RGB_DATA_DIR  = "data/EuroSAT_RGB"
 MS_DATA_DIR   = "data/EuroSAT_MS"
-BAND_INDICES  = None            # None = all 13 bands. Example: [3, 2, 1] for RGB-equivalent
-EPOCHS        = 50
-BATCH_SIZE    = 64
-LEARNING_RATE = 1e-3
-MAX_PER_CLASS = 200            # if not None, limits the number of images loaded from each class
 
 # Load data
 if MODE == "rgb":
     train_ds, val_ds = load_rgb_dataset(RGB_DATA_DIR, batch_size=BATCH_SIZE)
     n_channels = 3
-    run_name = "RGB_baseline"
+    run_name = "RGB_baseline_full" if MAX_PER_CLASS is None else f"RGB_baseline_{MAX_PER_CLASS}perclass"
 else:
     band_indices = BAND_INDICES if BAND_INDICES is not None else list(range(13))
     train_ds, val_ds, stats = load_ms_dataset(

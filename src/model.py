@@ -39,7 +39,7 @@ def build_model(in_channels, num_classes=10):
         keras.layers.MaxPooling2D(pool_size=(2, 2)),
         keras.layers.Flatten(),
         keras.layers.Dropout(0.4),
-        keras.layers.Dense(10, activation="softmax"),
+        keras.layers.Dense(num_classes, activation="softmax"),
     ]
 )
     return model
