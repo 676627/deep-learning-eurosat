@@ -1,0 +1,71 @@
+_wandb:
+    value:
+        cli_version: 0.25.1
+        e:
+            iqff6x8c698bjae1eoyy58thonzg4877:
+                args:
+                    - --mode
+                    - rgb
+                codePath: src/train.py
+                codePathLocal: src/train.py
+                cpu_count: 8
+                cpu_count_logical: 16
+                disk:
+                    /:
+                        total: "1081101176832"
+                        used: "11698196480"
+                email: 676627@stud.hvl.no
+                executable: /usr/bin/python
+                git:
+                    commit: 6b681f7edee6ce31106be7d875f1dac09f1cd5d8
+                    remote: https://github.com/676627/deep-learning-eurosat.git
+                host: 2818fc8a6e3e
+                memory:
+                    total: "7126323200"
+                os: Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.35
+                program: /workspaces/deep-learning-eurosat/src/train.py
+                python: CPython 3.11.15
+                root: /workspaces/deep-learning-eurosat
+                startedAt: "2026-04-25T11:50:36.365489Z"
+                writerId: iqff6x8c698bjae1eoyy58thonzg4877
+        m:
+            - "1": epoch/epoch
+              "6":
+                - 3
+              "7": []
+            - "2": epoch/*
+              "5": 1
+              "6":
+                - 1
+              "7": []
+        python_version: 3.11.15
+        t:
+            "1":
+                - 2
+                - 3
+                - 5
+                - 53
+            "2":
+                - 2
+                - 3
+                - 5
+                - 53
+            "3":
+                - 7
+                - 13
+                - 16
+                - 38
+            "4": 3.11.15
+            "5": 0.25.1
+            "12": 0.25.1
+            "13": linux-x86_64
+band_indices:
+    value: null
+batch_size:
+    value: 64
+epochs:
+    value: 50
+learning_rate:
+    value: 0.001
+mode:
+    value: rgb

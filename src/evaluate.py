@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -12,7 +12,7 @@ from sklearn.metrics import classification_report, confusion_matrix
 from src.dataset import load_rgb_dataset, load_ms_dataset, CLASSES
 
 # Configuration — point this at the checkpoint you want to evaluate
-CHECKPOINT    = "checkpoints/RGB_baseline_200perclass_best.keras"
+CHECKPOINT    = "checkpoints/RGB_batchnorm_full_best.keras"
 MODE          = "rgb"
 RGB_DATA_DIR  = "data/EuroSAT_RGB"
 MS_DATA_DIR   = "data/EuroSAT_MS"
@@ -61,5 +61,5 @@ plt.tight_layout()
 
 os.makedirs("results", exist_ok=True)
 run_name = os.path.basename(CHECKPOINT).replace("_best.keras", "")
-plt.savefig(f"results/{run_name}_confusion_matrix_{date.today()}.png", dpi=150, bbox_inches="tight")
+plt.savefig(f"results/{run_name}_confusion_matrix_{date.today()}_{datetime.now().strftime('%H-%M-%S')}.png", dpi=150, bbox_inches="tight")
 plt.show()
