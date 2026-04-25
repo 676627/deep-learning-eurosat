@@ -18,7 +18,7 @@ parser.add_argument("--epochs",        type=int, default=50)
 parser.add_argument("--batch_size",    type=int, default=64)
 parser.add_argument("--lr",            type=float, default=1e-3)
 parser.add_argument("--max_per_class", type=int, default=None)
-parser.add_argument("--model_version",      type=str, default=None, choices=["baseline", "batchnorm"])
+parser.add_argument("--model_version",      type=str, default=None, choices=["baseline", "batchnorm", "batchnorm_3conv"])
 args = parser.parse_args()
 
 MODE          = args.mode
