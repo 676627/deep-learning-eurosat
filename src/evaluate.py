@@ -12,7 +12,7 @@ from sklearn.metrics import classification_report, confusion_matrix
 from src.dataset import load_rgb_dataset, load_ms_dataset, CLASSES
 
 # Configuration — point this at the checkpoint you want to evaluate
-CHECKPOINT    = "checkpoints/RGB_batchnorm_3conv_full_best.keras"
+CHECKPOINT    = "checkpoints/RGB_batchnorm_3conv_gap_full_best.keras"
 MODE          = "rgb"
 RGB_DATA_DIR  = "data/EuroSAT_RGB"
 MS_DATA_DIR   = "data/EuroSAT_MS"
