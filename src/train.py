@@ -1,3 +1,4 @@
+import json
 import sys
 import os
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -48,6 +49,10 @@ else:
         MS_DATA_DIR, band_indices=band_indices, batch_size=BATCH_SIZE, max_per_class=MAX_PER_CLASS
     )
     n_channels = len(band_indices)
+    stats_path = os.path.join("checkpoints", f"{run_name}_stats.json")
+    with open(stats_path, "w") as f:
+        json.dump(stats, f)
+    print(f"Saved normalization stats to {stats_path}")
 
 # Build model
 model = build_model(in_channels=n_channels, model_version=args.model_version, dropout=args.dropout)
