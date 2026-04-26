@@ -56,6 +56,24 @@ def classify_image(image):
 
     return Image.fromarray(output)
 
+def make_legend_html():
+    items = ""
+    for class_name, color in CLASS_COLORS.items():
+        r, g, b = color
+        items += f"""
+            <div style="display:flex; align-items:center; margin:4px 0;">
+                <div style="width:20px; height:20px; background:rgb({r},{g},{b}); 
+                            margin-right:8px; border:1px solid #ccc; flex-shrink:0;">
+                </div>
+                <span>{class_name}</span>
+            </div>
+        """
+    return f'''
+        <div style="display:grid; grid-template-columns:1fr 1fr; 
+                    column-gap:24px; padding:8px;">
+            {items}
+        </div>
+    '''
 
 with gr.Blocks() as app:
     gr.Markdown("## EuroSAT Land Cover Classifier")
@@ -69,11 +87,6 @@ with gr.Blocks() as app:
 
     gr.Button("Classify").click(fn=classify_image, inputs=inp, outputs=out)
 
-    gr.Markdown("""
-    **Legend**
-    🟡 AnnualCrop  🟢 Forest  🍏 HerbaceousVegetation  ⬛ Highway  
-    🟣 Industrial  🩶 Pasture  🟠 PermanentCrop  🔴 Residential  
-    🔵 River  🩵 SeaLake
-    """)
+    gr.HTML(make_legend_html(), elem_id="legend")
 
 app.launch()
