@@ -1,0 +1,16 @@
+wandb_version: 1
+
+batch_size:
+  value: 64
+data_dir:
+  value: data/EuroSAT_RGB
+dropout:
+  value: 0.5
+lr:
+  value: 0.0001
+max_per_class:
+  value: 500
+mode:
+  value: rgb
+model_version:
+  value: batchnorm_3conv

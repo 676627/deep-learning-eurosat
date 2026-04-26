@@ -1,7 +1,7 @@
 import keras
 
 
-def build_model(in_channels, model_version, num_classes=10):
+def build_model(in_channels, model_version, num_classes=10, dropout=0.4):
     if model_version == "baseline":
         # Baseline architecture for RGB (3 channels) and multispectral (13 channels):
         return keras.Sequential([
@@ -11,7 +11,7 @@ def build_model(in_channels, model_version, num_classes=10):
             keras.layers.Conv2D(64, kernel_size=(3, 3), activation="relu"),
             keras.layers.MaxPooling2D(pool_size=(2, 2)),
             keras.layers.Flatten(),
-            keras.layers.Dropout(0.4),
+            keras.layers.Dropout(dropout),
             keras.layers.Dense(num_classes, activation="softmax"),
         ])
 
@@ -30,7 +30,7 @@ def build_model(in_channels, model_version, num_classes=10):
             keras.layers.Activation("relu"),
             keras.layers.MaxPooling2D(pool_size=(2, 2)),
             keras.layers.Flatten(),
-            keras.layers.Dropout(0.4),
+            keras.layers.Dropout(dropout),
             keras.layers.Dense(num_classes, activation="softmax"),
         ])
 
@@ -53,7 +53,7 @@ def build_model(in_channels, model_version, num_classes=10):
             keras.layers.Activation("relu"),
             keras.layers.MaxPooling2D(pool_size=(2, 2)),
             keras.layers.Flatten(),
-            keras.layers.Dropout(0.4),
+            keras.layers.Dropout(dropout),
             keras.layers.Dense(num_classes, activation="softmax"),
         ])
 

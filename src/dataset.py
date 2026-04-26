@@ -21,25 +21,67 @@ BAND_NAMES = [
 ]
 
 
-def load_rgb_dataset(data_dir, image_size=(64, 64), batch_size=64, seed=42):
-    """
-    Loads the EuroSAT RGB dataset directly from the folder structure.
+def load_rgb_dataset(data_dir, image_size=(64, 64), batch_size=64, seed=42, max_per_class=None):
+    if max_per_class is None:
+        # Original fast path — image_dataset_from_directory handles everything
+        train_ds, val_ds = keras.utils.image_dataset_from_directory(
+            data_dir,
+            validation_split=0.2,
+            subset="both",
+            seed=seed,
+            image_size=image_size,
+            batch_size=batch_size,
+            label_mode="int",
+        )
+        rescale = keras.layers.Rescaling(1.0 / 255)
+        train_ds = train_ds.map(lambda x, y: (rescale(x), y))
+        val_ds   = val_ds.map(lambda x, y: (rescale(x), y))
+        return train_ds, val_ds
 
-    Returns train_ds and val_ds as tf.data.Dataset objects.
-    """
-    train_ds, val_ds = keras.utils.image_dataset_from_directory(
-        data_dir,
-        validation_split=0.2,
-        subset="both",
-        seed=seed,
-        image_size=image_size,
-        batch_size=batch_size,
-        label_mode="int",
+    # Subset path — collect file paths manually, limit per class, then build dataset
+    all_paths, all_labels = [], []
+    for label_idx, class_name in enumerate(CLASSES):
+        class_dir = os.path.join(data_dir, class_name)
+        files = sorted(f for f in os.listdir(class_dir)
+                       if f.lower().endswith(".jpg"))[:max_per_class]
+        for fname in files:
+            all_paths.append(os.path.join(class_dir, fname))
+            all_labels.append(label_idx)
+
+    all_paths  = np.array(all_paths)
+    all_labels = np.array(all_labels, dtype=np.int32)
+
+    # Shuffle and split 80/20
+    rng = np.random.default_rng(seed)
+    idx   = rng.permutation(len(all_paths))
+    n_val = int(len(all_paths) * 0.2)
+    train_idx = idx[n_val:]
+    val_idx   = idx[:n_val]
+
+    def load_image(fpath, label):
+        img = tf.io.read_file(fpath)
+        img = tf.image.decode_jpeg(img, channels=3)
+        img = tf.image.resize(img, image_size)
+        img = tf.cast(img, tf.float32) / 255.0
+        return img, label
+
+    train_ds = (
+        tf.data.Dataset.from_tensor_slices(
+            (all_paths[train_idx], all_labels[train_idx])
+        )
+        .shuffle(len(train_idx), seed=seed)
+        .map(load_image, num_parallel_calls=tf.data.AUTOTUNE)
+        .batch(batch_size)
+        .prefetch(tf.data.AUTOTUNE)
     )
-
-    rescale = keras.layers.Rescaling(1.0 / 255)
-    train_ds = train_ds.map(lambda x, y: (rescale(x), y))
-    val_ds   = val_ds.map(lambda x, y: (rescale(x), y))
+    val_ds = (
+        tf.data.Dataset.from_tensor_slices(
+            (all_paths[val_idx], all_labels[val_idx])
+        )
+        .map(load_image, num_parallel_calls=tf.data.AUTOTUNE)
+        .batch(batch_size)
+        .prefetch(tf.data.AUTOTUNE)
+    )
 
     return train_ds, val_ds
 

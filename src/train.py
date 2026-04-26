@@ -12,13 +12,15 @@ from src.model import build_model
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--mode",          type=str, default="rgb", choices=["rgb", "ms"])
-parser.add_argument("--band_indices",  type=int, default=None)
-parser.add_argument("--epochs",        type=int, default=50)
-parser.add_argument("--batch_size",    type=int, default=64)
-parser.add_argument("--lr",            type=float, default=1e-4)
-parser.add_argument("--max_per_class", type=int, default=None)
-parser.add_argument("--model_version",      type=str, default=None, choices=["baseline", "batchnorm", "batchnorm_3conv", "batchnorm_3conv_gap"])
+parser.add_argument("--mode",          type=str,    default="rgb", choices=["rgb", "ms"])
+parser.add_argument("--band_indices",  type=int,    default=None)
+parser.add_argument("--epochs",        type=int,    default=50)
+parser.add_argument("--batch_size",    type=int,    default=64)
+parser.add_argument("--lr",            type=float,  default=1e-4)
+parser.add_argument("--max_per_class", type=int,    default=None)
+parser.add_argument("--model_version", type=str,    default=None, choices=["baseline", "batchnorm", "batchnorm_3conv", "batchnorm_3conv_gap"])
+parser.add_argument("--dropout",       type=float,  default=0.4)
+parser.add_argument("--data_dir",      type=str,    default="data/EuroSAT_RGB")
 args = parser.parse_args()
 
 MODE          = args.mode
@@ -38,7 +40,7 @@ run_name      = f"{dataset_label}_{args.model_version}_{subset_label}"
 
 # Load data
 if MODE == "rgb":
-    train_ds, val_ds = load_rgb_dataset(RGB_DATA_DIR, batch_size=BATCH_SIZE)
+    train_ds, val_ds = load_rgb_dataset(RGB_DATA_DIR, batch_size=BATCH_SIZE, max_per_class=MAX_PER_CLASS)
     n_channels = 3
 else:
     band_indices = BAND_INDICES if BAND_INDICES is not None else list(range(13))
@@ -48,7 +50,7 @@ else:
     n_channels = len(band_indices)
 
 # Build model
-model = build_model(in_channels=n_channels, model_version=args.model_version)
+model = build_model(in_channels=n_channels, model_version=args.model_version, dropout=args.dropout)
 model.summary()
 
 # Set up W&B logging

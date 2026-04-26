@@ -1,0 +1,21 @@
+program: src/train.py
+method: bayes
+metric:
+  name: epoch/val_accuracy
+  goal: maximize
+run_cap: 20            # stops after 20 runs
+parameters:
+  lr:
+    values: [5e-4, 1e-4, 5e-5]
+  dropout:
+    values: [0.3, 0.4, 0.5]
+  batch_size:
+    values: [32, 64]
+  max_per_class:
+    value: 500
+  model_version:
+    value: batchnorm_3conv
+  mode:
+    value: rgb
+  data_dir:
+    value: data/EuroSAT_RGB
