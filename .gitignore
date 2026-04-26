@@ -212,3 +212,5 @@ data/
 checkpoints/
 .wandb/
 EuroSAT_MS_cache.npz
+
+val_images.txt
