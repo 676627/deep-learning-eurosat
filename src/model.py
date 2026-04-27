@@ -1,7 +1,7 @@
 import keras
 
 
-def build_model(in_channels, model_version, num_classes=10, dropout=0.4):
+def build_model(in_channels, model_version="batchnorm_3conv", num_classes=10, dropout=0.4):
     if model_version == "baseline":
         # Baseline architecture for RGB (3 channels) and multispectral (13 channels):
         return keras.Sequential([
@@ -79,4 +79,8 @@ def build_model(in_channels, model_version, num_classes=10, dropout=0.4):
             keras.layers.Dropout(0.5),
             keras.layers.Dense(10, activation="softmax"),
         ])
+    else:
+        raise ValueError(
+            f"Unknown model_version '{model_version}'. "
+        )
 

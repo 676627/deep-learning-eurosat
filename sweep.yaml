@@ -1,4 +1,5 @@
 program: src/train.py
+project: eurosat-cnn
 method: bayes
 metric:
   name: epoch/val_accuracy
