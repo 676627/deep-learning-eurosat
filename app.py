@@ -7,7 +7,7 @@ from PIL import Image
 from huggingface_hub import hf_hub_download
 
 model_path = hf_hub_download(
-    repo_id="your-username/eurosat-cnn",
+    repo_id="lasseu/eurosat-cnn",
     filename="RGB_batchnorm_3conv_full_best.keras"
 )
 model = keras.models.load_model(model_path)
