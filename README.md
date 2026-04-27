@@ -1,10 +1,7 @@
----
-title: deep-learning-eurosat
-app_file: app.py
-sdk: gradio
-sdk_version: 6.13.0
----
 # DAT255 Project Group 7
+
+## Deployed app
+https://huggingface.co/spaces/lasseu/deep-learning-eurosat
 
 ## Title:
 

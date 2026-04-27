@@ -9,12 +9,13 @@ from wandb.integration.keras import WandbMetricsLogger
 
 from src.dataset import load_rgb_dataset, load_ms_dataset
 from src.model import build_model
+from src.dataset import BAND_NAMES
 
 import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--mode",          type=str,    default="rgb", choices=["rgb", "ms"])
-parser.add_argument("--band_indices",  type=int,    default=None)
+parser.add_argument("--band_indices", type=int, nargs="+", default=None)
 parser.add_argument("--epochs",        type=int,    default=50)
 parser.add_argument("--batch_size",    type=int,    default=64)
 parser.add_argument("--lr",            type=float,  default=1e-4)
@@ -38,6 +39,15 @@ MS_DATA_DIR   = "data/EuroSAT_MS"
 dataset_label = "RGB" if MODE == "rgb" else "MS"
 subset_label  = f"{args.max_per_class}perclass" if args.max_per_class else "full"
 run_name      = f"{dataset_label}_{args.model_version}_{subset_label}"
+os.makedirs("checkpoints", exist_ok=True)
+
+# Build band label for run name for MS runs with a subset of bands
+if MODE == "ms" and BAND_INDICES is not None:
+    band_label = f"bands{'_'.join(str(b) for b in BAND_INDICES)}"
+else:
+    band_label = None
+ 
+run_name = "_".join(filter(None, [dataset_label, args.model_version, band_label, subset_label]))
 
 # Load data
 if MODE == "rgb":
@@ -49,6 +59,9 @@ else:
         MS_DATA_DIR, band_indices=band_indices, batch_size=BATCH_SIZE, max_per_class=MAX_PER_CLASS
     )
     n_channels = len(band_indices)
+    print(f"Using {n_channels} bands:")
+    for i in band_indices:
+        print(f"  [{i}] {BAND_NAMES[i]}")
     stats_path = os.path.join("checkpoints", f"{run_name}_stats.json")
     with open(stats_path, "w") as f:
         json.dump(stats, f)
@@ -78,7 +91,6 @@ model.compile(
     metrics=["accuracy"],
 )
 
-os.makedirs("checkpoints", exist_ok=True)
 
 history = model.fit(
     train_ds,
