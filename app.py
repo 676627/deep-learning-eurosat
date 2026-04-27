@@ -4,8 +4,13 @@ import pandas as pd
 import keras
 import gradio as gr
 from PIL import Image
+from huggingface_hub import hf_hub_download
 
-model = keras.models.load_model("checkpoints/RGB_batchnorm_3conv_full_best.keras")
+model_path = hf_hub_download(
+    repo_id="your-username/eurosat-cnn",
+    filename="RGB_batchnorm_3conv_full_best.keras"
+)
+model = keras.models.load_model(model_path)
 
 CLASSES = [
     "AnnualCrop", "Forest", "HerbaceousVegetation", "Highway",
@@ -193,7 +198,7 @@ with gr.Blocks(title="EuroSAT Land Cover Classifier") as app:
         examples=EXAMPLE_PATHS,
         inputs=inp,
         label="Example canvases — click to load",
-        example_labels=EXAMPLE_LABELS,
+        examples_per_page=15,
     )
 
     opacity = gr.Slider(

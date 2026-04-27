@@ -12,5 +12,5 @@
   "forwardPorts": [
     8888
   ],
-  "postCreateCommand": "pip install pandas matplotlib seaborn scikit-learn rasterio pillow tqdm wandb gradio"
+  "postCreateCommand": "pip install pandas matplotlib seaborn scikit-learn rasterio pillow tqdm wandb gradio huggingface_hub"
 }
