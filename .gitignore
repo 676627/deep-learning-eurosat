@@ -211,6 +211,7 @@ __marimo__/
 data/
 checkpoints/
 .wandb/
+wandb/
 EuroSAT_MS_cache.npz
 
 val_images.txt
