@@ -280,7 +280,7 @@ with gr.Blocks(title="EuroSAT Land Cover Classifier") as app:
         "It will be divided into 64×64 tiles and each tile classified "
         "into one of 10 land cover types. "
         "Click any tile on the classification map to see its prediction. "
-        "For example canvases, green borders indicate correct predictions and red borders incorrect ones. "
+        "For example canvases red borders indicate incorrect predictions. "
         "The image will be cropped to the nearest multiple of 64 pixels."
     )
 

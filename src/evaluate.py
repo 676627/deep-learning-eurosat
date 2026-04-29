@@ -12,11 +12,11 @@ from sklearn.metrics import classification_report, confusion_matrix
 from src.dataset import load_rgb_dataset, load_ms_dataset, CLASSES
 
 # Configuration — point this at the checkpoint you want to evaluate
-CHECKPOINT    = "checkpoints/MS_batchnorm_3conv_bands0_1_2_3_4_5_6_7_8_9_10_full_best.keras"
+CHECKPOINT    = "checkpoints/MS_batchnorm_3conv_bands0_1_2_3_4_5_6_7_8_9_full_best.keras"
 MODE          = "ms"
 RGB_DATA_DIR  = "data/EuroSAT_RGB"
 MS_DATA_DIR   = "data/EuroSAT_MS"
-BAND_INDICES  = [0,1,2,3,4,5,6,7,8,9,10]    # must match what was used during training
+BAND_INDICES  = [0,1,2,3,4,5,6,7,8,9]    # must match what was used during training
 
 # Load the same validation data
 if MODE == "rgb":
