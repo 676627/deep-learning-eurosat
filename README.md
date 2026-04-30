@@ -1,16 +1,15 @@
 # DAT255 Deep Learning — Group 7
-# DAT255 Deep Learning — Group 7
 
 Land cover classification using Sentinel-2 satellite imagery and convolutional neural networks.
 
 **Deployed app:** https://huggingface.co/spaces/lasseu/deep-learning-eurosat  
-**Experiment tracking:** https://wandb.ai (project: eurosat-cnn)
+**Experiment tracking:** [https://wandb.ai (project: eurosat-cnn)](https://wandb.ai/180240-h-gskulen-p-vestlandet/eurosat-cnn)
 
 ---
 
 ## Project overview
 
-This project investigates land cover classification using the EuroSAT dataset. We train and compare CNNs on RGB images (3 channels) and full 13-band multispectral Sentinel-2 inputs to evaluate performance differences. A series of band ablation experiments is conducted to analyse the contribution of individual spectral bands to classification performance. A Gradio web application is included for interactive demonstration.
+This project investigates land cover classification using the EuroSAT dataset. We train and compare CNNs on RGB images (3 channels) and full 13-band multispectral Sentinel-2 inputs to evaluate performance differences. A Gradio web application is included for interactive demonstration.
 
 ---
 
