@@ -1,4 +1,5 @@
 # DAT255 Deep Learning — Group 7
+# DAT255 Deep Learning — Group 7
 
 Land cover classification using Sentinel-2 satellite imagery and convolutional neural networks.
 
